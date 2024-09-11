@@ -1,20 +1,14 @@
-let proxId = 1;
+const db = require("../db.js");
 
-const model = (body, id = proxId++) => {
-  if (
-    body.nome != undefined &&
-    body.endereco != undefined &&
-    body.nome != "" &&
-    body.endereco > 0 
-  ) {
-    return {
-      id,
-      dataAluguel: body.dataAluguel,
-      dataDevolucao: body.dataDevolucao,
-      livro_id: body.livro_id,
-      estudante_id: body.estudante_id,
-    };
+const Schema = db.Schema;
+
+const aeroportoSchema = new Schema({
+  nome: {
+    type: String,
+    required: true,
   }
-};
+});
 
-module.exports = model;
+const Moto = db.model("Aeroporto", aeroportoSchema);
+
+module.exports = Aeroporto;

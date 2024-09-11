@@ -1,45 +1,34 @@
-const model = require("../models/aeroporto_model.js");
+const aeroporto = require("../models/aeroporto_models.js")
 
-const db = [];
+const store = async (req, res) => {
+    await aeroporto.create(req.body)
+    res.json() 
+}
 
-const index = () => db;
+const index = async (req, res) => {
+    const content = await aeroporto.find(req.query).exec();
+    res.json(content)
+}
 
-const show = (id) => db.find((el) => el.id == id);
+const show = async (req, res) => {
+    const content = await aeroporto.findById(req.params.id).exec();
+    res.json(content);
+}
 
-const store = (body) => {
-  const novo = model(body);
+const update = async (req, res) => {
+    await aeroporto.findByIdAndUpdate(req.params.id, req.body).exec()
+    res.json()
+}
 
-  if (novo) {
-    db.push(novo);
-    return 201;
-  }
-
-  return 400;
-};
-
-const update = (body, id) => {
-  const novo = model(body, parseInt(id));
-  const indice = db.findIndex((el) => el.id == id);
-
-  if (novo && indice != -1) {
-    db[indice] = novo;
-    return 200;
-  }
-
-  return 400;
-};
-
-const destroy = (id) => {
-  const indice = db.findIndex((el) => el.id == id);
-  if (indice != -1) {
-    db.splice(indice, 1);
-  }
-};
+const destroy = async (req, res) => {
+    await aeroporto.findByIdAndDelete(req.params.id).exec()
+    res.json()
+}
 
 module.exports = {
-  index,
-  show,
-  store,
-  update,
-  destroy,
-};
+    store,
+    index,
+    show,
+    update,
+    destroy
+}

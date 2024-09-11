@@ -1,17 +1,18 @@
-let proxId = 1;
+const db = require("../db.js");
 
-const model = (body, id = proxId++) => {
-  if (
-    body.cor != undefined &&
-    body.ehBic != false &&
-    body.cor != ""
-  ) {
-    return {
-      id,
-      cor: body.cor,
-      ehBic: body.ehBic
-    };
+const Schema = db.Schema;
+
+const canetaSchema = new Schema({
+  cor: {
+    type: String,
+    required: true,
+  },
+  ehBic: {
+    type: Boolean,
+    required: true
   }
-};
+});
 
-module.exports = model;
+const Caneta = db.model("Caneta", canetaSchema);
+
+module.exports = Caneta;
